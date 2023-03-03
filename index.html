@@ -42,6 +42,7 @@
       });
 
       async function install() {
+        console.log('install')
         if(deferredPrompt){
           deferredPrompt.prompt();
           console.log(deferredPrompt);
