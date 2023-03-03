@@ -30,6 +30,38 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <script>
+      let deferredPrompt = null;
+
+      window.addEventListener('beforeinstallPrompt', (e) => {
+        e.preventDefault();
+
+        deferredPrompt = e;
+      });
+
+      async function install() {
+        if(deferredPrompt){
+          deferredPrompt.prompt();
+          console.log(deferredPrompt);
+          deferredPrompt.userChoice.then(function(choiceResult){
+            if(choiceResult.outcome === "accepted"){
+              console.log('Your PWA has been installed.');
+            } else {
+              console.loG('User chose to not install ypur PWA.')
+            }
+
+            deferredPrompt = null;
+          });
+        }
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        install();
+      });
+    </script>
   </head>
   <body>
     <style>
