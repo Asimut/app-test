@@ -19,6 +19,12 @@
         deferredPrompt = event;
         // Можно использовать deferredPrompt.prompt() для отображения диалогового окна установки
       });
+
+      if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('Приложение уже установлено')
+      } else {
+        console.log('Приложение еще не установлено')
+      }
     </script> 
     
     
