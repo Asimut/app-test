@@ -45,6 +45,7 @@
   <script>
     let deferredPrompt = null;
     window.addEventListener("DOMContentLoaded", async event => {
+      console.log("DOMContentLoaded");
       if ('BeforeInstallPromptEvent' in window) {
         console.log("⏳ BeforeInstallPromptEvent supported but not fired yet");
       } else {
