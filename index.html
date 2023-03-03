@@ -23,6 +23,7 @@
 
     <meta name="theme-color" content="#ffffff">
     <link rel="apple-touch-icon" href="AppImages/android/android-launchericon-192-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="manifest" href="manifest.json">    
     <script src="pwabuilder-sw.js"></script>
     <script>
@@ -69,11 +70,11 @@
     }
 
 
-    var installPromptEvent;
-    window.addEventListener('beforeinstallprompt', function(event) {
-      event.preventDefault();
-      installPromptEvent = event;
-    });
+    // var installPromptEvent;
+    // window.addEventListener('beforeinstallprompt', function(event) {
+    //   event.preventDefault();
+    //   installPromptEvent = event;
+    // });
 
     function installApp() {
       if (installPromptEvent) {
