@@ -284,7 +284,7 @@
     {
       "src": "AppImages/windows11/Square44x44Logo.altform-unplated_targetsize-256.png",
       "sizes": "256x256",
-      "purpose": "any"
+      "purpose": "any"      
     },
     {
       "src": "AppImages/windows11/Square44x44Logo.altform-lightunplated_targetsize-16.png",
@@ -348,7 +348,8 @@
     },
     {
       "src": "AppImages/android/android-launchericon-512-512.png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "maskable"
     },
     {
       "src": "AppImages/android/android-launchericon-192-192.png",
