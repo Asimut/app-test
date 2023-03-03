@@ -1,46 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" class="">
-  <head>  
-    <script>
-      let deferredPrompt = null;
-
-      window.addEventListener('beforeinstallprompt', function(event) {
-        console.log(event)
-        // Отменяем стандартную обработку события
-        event.preventDefault();
-        // Сохраняем объект PromptEvent для дальнейшего использования
-        deferredPrompt = event;
-        // Можно использовать deferredPrompt.prompt() для отображения диалогового окна установки
-      });
-
-      if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('Приложение уже установлено')
-      } else {
-        console.log('Приложение еще не установлено')
-      }
-
-
-      var installPromptEvent;
-      window.addEventListener('beforeinstallprompt', function(event) {
-        event.preventDefault();
-        installPromptEvent = event;
-      });
-
-      function installApp() {
-        if (installPromptEvent) {
-          installPromptEvent.prompt();
-          installPromptEvent.userChoice.then(function(choiceResult) {
-            // Обработка выбора пользователя
-          });
-        }
-      }
-    </script> 
-    
-    
+  <head> 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta charset="utf-8">
-    
+    <meta charset="utf-8">   
 
     <title>The Basics of Managing Stress</title>
 
@@ -78,6 +41,48 @@
       //   navigator.serviceWorker.register('pwabuilder-sw.js')
       // }
     </script>
+
+  <script>
+    let deferredPrompt = null;
+    window.addEventListener("DOMContentLoaded", async event => {
+      if ('BeforeInstallPromptEvent' in window) {
+        console.log("⏳ BeforeInstallPromptEvent supported but not fired yet");
+      } else {
+        console.log("❌ BeforeInstallPromptEvent NOT supported");    
+      }
+    });
+
+    window.addEventListener('beforeinstallprompt', function(event) {
+      console.log(event)
+      // Отменяем стандартную обработку события
+      event.preventDefault();
+      // Сохраняем объект PromptEvent для дальнейшего использования
+      deferredPrompt = event;
+      // Можно использовать deferredPrompt.prompt() для отображения диалогового окна установки
+    });
+
+    if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+      console.log('Приложение уже установлено')
+    } else {
+      console.log('Приложение еще не установлено')
+    }
+
+
+    var installPromptEvent;
+    window.addEventListener('beforeinstallprompt', function(event) {
+      event.preventDefault();
+      installPromptEvent = event;
+    });
+
+    function installApp() {
+      if (installPromptEvent) {
+        installPromptEvent.prompt();
+        installPromptEvent.userChoice.then(function(choiceResult) {
+          // Обработка выбора пользователя
+        });
+      }
+    }
+  </script> 
 
     <script>
       window.addEventListener('click', (e) => {
