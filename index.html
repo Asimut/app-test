@@ -4,13 +4,6 @@
     <script>
       let deferredPrompt = null;
 
-      // window.addEventListener('beforeinstallPrompt', (e) => {
-
-      //   e.preventDefault();
-
-      //   deferredPrompt = e;
-      // });
-
       window.addEventListener('beforeinstallprompt', function(event) {
         console.log(event)
         // Отменяем стандартную обработку события
@@ -24,6 +17,22 @@
         console.log('Приложение уже установлено')
       } else {
         console.log('Приложение еще не установлено')
+      }
+
+
+      var installPromptEvent;
+      window.addEventListener('beforeinstallprompt', function(event) {
+        event.preventDefault();
+        installPromptEvent = event;
+      });
+
+      function installApp() {
+        if (installPromptEvent) {
+          installPromptEvent.prompt();
+          installPromptEvent.userChoice.then(function(choiceResult) {
+            // Обработка выбора пользователя
+          });
+        }
       }
     </script> 
     
