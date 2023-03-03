@@ -4,10 +4,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
+    
+
+    <title>The Basics of Managing Stress</title>
+
+    <link type="text/css" rel="stylesheet" href="lib/icomoon.css">
+    <link type="text/css" rel="stylesheet" href="lib/main.bundle.css">
+    <script type="text/javascript" src="lib/player-0.0.11.min.js"></script>
+    <script type="text/javascript" src="lib/lzwcompress.js"></script>
+
+    <!-- Resize Hack -->
+    <script type="text/javascript">
+      window.resizeTo(screen.width, screen.height);
+    </script>
+    
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
     <meta name="theme-color" content="#ffffff">
-    <link rel="manifest" href="manifest.json">
-    <!-- <script src="https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js"></script> -->
+    <link rel="apple-touch-icon" href="AppImages/android/android-launchericon-192-192.png">
+    <link rel="manifest" href="manifest.json">    
     <script src="pwabuilder-sw.js"></script>
     <script>
       if('serviceWorker' in navigator){
@@ -35,6 +52,23 @@
         deferredPrompt = e;
       });
 
+      btnAdd.addEventListener('click', (e) => {
+        // hide our user interface that shows our A2HS button
+        btnAdd.style.display = 'none';
+        // Show the prompt
+        deferredPrompt.prompt();
+        // Wait for the user to respond to the prompt
+        deferredPrompt.userChoice
+          .then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('User accepted the A2HS prompt');
+            } else {
+              console.log('User dismissed the A2HS prompt');
+            }
+            deferredPrompt = null;
+          });
+      });
+
       async function install() {
         console.log('install')
         console.log(deferredPrompt);
@@ -59,26 +93,6 @@
         install();
       });
     </script>
-
-
-
-    <link rel="apple-touch-icon" href="AppImages/android/android-launchericon-192-192.png">
-
-    <title>The Basics of Managing Stress</title>
-
-    <link type="text/css" rel="stylesheet" href="lib/icomoon.css">
-    <link type="text/css" rel="stylesheet" href="lib/main.bundle.css">
-    <script type="text/javascript" src="lib/player-0.0.11.min.js"></script>
-    <script type="text/javascript" src="lib/lzwcompress.js"></script>
-
-    <!-- Resize Hack -->
-    <script type="text/javascript">
-      window.resizeTo(screen.width, screen.height);
-    </script>
-    
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 
     
   </head>
