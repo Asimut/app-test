@@ -3,17 +3,10 @@
 //   importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 // } 
 
-
 const CACHE = "pwabuilder-page";
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
-
-self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
-});
 
 self.addEventListener('install', async (event) => {
   event.waitUntil(
@@ -22,28 +15,37 @@ self.addEventListener('install', async (event) => {
   );
 });
 
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
-
 self.addEventListener('fetch', (event) => {
   if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
+    event.respondWith(
+      fetch(event.request)
+      .then(function(response){
+        console.log('PWA Builderadd page to offline cache: ' + response.url);
 
-        if (preloadResp) {
-          return preloadResp;
-        }
+        event.waitUntil(updareChache(event.request, response.clone()));
 
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
+        return response;
+      })
+      .catch(function(error){
+        console.log('PWA Builder request failed. Serving content from cache: ' + error);
+        return fromCache(event.request);
+      })
+    );
   }
 });
+
+function fromCache(request){
+  return caches.open(CACHE).then(function(cache){
+    if(!matching || matching.status === 404){
+      return Promise.reject("no-match");
+    }
+
+    return matching;
+  })
+}
+
+function updareChache(request, response){
+  return caches.open(CACHE).then(function(cache){
+    return cache.put(request, response);
+  })
+}
