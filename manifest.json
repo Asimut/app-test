@@ -283,7 +283,8 @@
     },
     {
       "src": "AppImages/windows11/Square44x44Logo.altform-unplated_targetsize-256.png",
-      "sizes": "256x256"
+      "sizes": "256x256",
+      "purpose": "any"
     },
     {
       "src": "AppImages/windows11/Square44x44Logo.altform-lightunplated_targetsize-16.png",
