@@ -43,6 +43,7 @@
 
       async function install() {
         console.log('install')
+        console.log(deferredPrompt);
         if(deferredPrompt){
           deferredPrompt.prompt();
           console.log(deferredPrompt);
