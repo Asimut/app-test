@@ -7,6 +7,7 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
 
+precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
@@ -14,45 +15,44 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// self.addEventListener('install', async (event) => {
-//   event.waitUntil(
-//     caches.open(CACHE)
-//       .then((cache) => cache.add(offlineFallbackPage))
-           
-//   );
-// });
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(async (cache) => {
-    let ok,
-    cats = [
-      'a', 'folder', 'with',
-      'lots', 'of', 'files',
-      'for', 'the', 'same', 'extension'
-    ],
-    c = [
-      'index.html',
-      ...cats.map(i => '/assets/' + i + '.jpg')
-      ];
-
-    console.log('ServiceWorker: Caching files:', c.length, c);
-    try {
-      ok = await cache.addAll(c);
-    } catch (err) {
-      console.error('sw: cache.addAll');
-      for await (let i of c) {
-        try {
-          ok = await cache.add(i);
-        } catch (err) {
-          console.warn('sw: cache.add',i);
-        }
-      }
-    }
-
-    return ok;
-  }));
-
-  console.log('ServiceWorker installed');
+self.addEventListener('install', async (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))           
+  );
 });
+// self.addEventListener('install', e => {
+//   e.waitUntil(caches.open(CACHE).then(async (cache) => {
+//     let ok,
+//     cats = [
+//       'a', 'folder', 'with',
+//       'lots', 'of', 'files',
+//       'for', 'the', 'same', 'extension'
+//     ],
+//     c = [
+//       'index.html',
+//       ...cats.map(i => '/assets/' + i + '.jpg')
+//       ];
+
+//     console.log('ServiceWorker: Caching files:', c.length, c);
+//     try {
+//       ok = await cache.addAll(c);
+//     } catch (err) {
+//       console.error('sw: cache.addAll');
+//       for await (let i of c) {
+//         try {
+//           ok = await cache.add(i);
+//         } catch (err) {
+//           console.warn('sw: cache.add',i);
+//         }
+//       }
+//     }
+
+//     return ok;
+//   }));
+
+//   console.log('ServiceWorker installed');
+// });
 
 
 
@@ -63,7 +63,7 @@ if (workbox.navigationPreload.isSupported()) {
 workbox.routing.registerRoute(
   new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new workbox.strategies.NetworkFirst({
-      cacheName: CACHE,
+      cacheName: 'images',
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
               statuses: [0, 200]
@@ -145,6 +145,23 @@ self.addEventListener('fetch', (event) => {
       .catch(function(error){
         console.log('PWA Builder request failed. Serving content from cache: ' + error);
         return fromCache(event.request);
+      })
+    );
+  }
+  if (event.request.destination === 'image') {
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        return fetch(event.request).then((response) => {
+          const clonedResponse = response.clone();
+          caches.open('images').then((cache) => {
+            cache.put(event.request, clonedResponse);
+          });
+          return response;
+        });
       })
     );
   }
