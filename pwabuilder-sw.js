@@ -4,16 +4,16 @@ const CACHE = "pwabuilder-offline-page";
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
 
-import { precacheAndRoute } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+// import { precacheAndRoute } from 'workbox-precaching';
+// import { registerRoute } from 'workbox-routing';
+// import { CacheFirst } from 'workbox-strategies';
 
-precacheAndRoute(self.__WB_MANIFEST);
+// precacheAndRoute(self.__WB_MANIFEST);
 
-registerRoute(
-  ({request}) => request.destination === 'image',
-  new CacheFirst()
-);
+// registerRoute(
+//   ({request}) => request.destination === 'image',
+//   new CacheFirst()
+// );
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
@@ -36,22 +36,22 @@ if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
 
-// workbox.routing.registerRoute(
-//   new RegExp('/(.*)/'),
-//   new workbox.strategies.NetworkFirst({
-//       cacheName: 'all',
-//       plugins: [
-//           new workbox.cacheableResponse.CacheableResponsePlugin({
-//               statuses: [0, 200]
-//           }),
-//           new workbox.expiration.ExpirationPlugin({
-//               maxEntries: 100,
-//               maxAgeSeconds: 60 * 60 * 24 * 7,
-//               purgeOnQuotaError: true
-//           })
-//       ]
-//   })
-// );
+workbox.routing.registerRoute(
+  new RegExp('/(.*)/'),
+  new workbox.strategies.NetworkFirst({
+      cacheName: 'all',
+      plugins: [
+          new workbox.cacheableResponse.CacheableResponsePlugin({
+              statuses: [0, 200]
+          }),
+          new workbox.expiration.ExpirationPlugin({
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 7,
+              purgeOnQuotaError: true
+          })
+      ]
+  })
+);
 
 // workbox.routing.registerRoute(
 //   /(.*)\.(?:png|gif|jpg)(.*)/,
