@@ -94,23 +94,31 @@
       document.addEventListener("DOMContentLoaded", function() {
         install();
 
-        const parentDOM = document.getElementById("app");
-        
-        var button = parentDOM.getElementsByClassName("cover__header-content-action-link")[0];
-        console.log(button);
+        window.addEventListener("click", function(e){
+        const target = e.target.closest(".cover__header-content-action-link"); // Or any other selector.
 
-        button.addEventListener('click', button, function(e) {
+        if(target){
           deferredPrompt.prompt();
-          deferredPrompt.userChoice
-            .then((choiceResult) => {
-              if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the A2HS prompt');
-              } else {
-                console.log('User dismissed the A2HS prompt');
-              }
-              deferredPrompt = null;
-            });
-        });
+        }
+      });
+
+        // const parentDOM = document.getElementById("app");
+        
+        // var button = parentDOM.getElementsByClassName("cover__header-content-action-link")[0];
+        // console.log(button);
+
+        // button.addEventListener('click', button, function(e) {
+        //   deferredPrompt.prompt();
+        //   deferredPrompt.userChoice
+        //     .then((choiceResult) => {
+        //       if (choiceResult.outcome === 'accepted') {
+        //         console.log('User accepted the A2HS prompt');
+        //       } else {
+        //         console.log('User dismissed the A2HS prompt');
+        //       }
+        //       deferredPrompt = null;
+        //     });
+        // });
       });
     </script>
 
