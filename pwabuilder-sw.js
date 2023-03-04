@@ -35,18 +35,7 @@ self.addEventListener('install', async (event) => {
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
-// workbox.routing.registerRoute(
-//   /\/assets\/.*\.(png|jpg|jpeg|gif)$/,
-//   new workbox.strategies.CacheFirst({
-//     cacheName: CACHE,
-//     plugins: [
-//       new workbox.expiration.Plugin({
-//         maxEntries: 100,
-//         maxAgeSeconds: 7 * 24 * 60 * 60, // 7 дней
-//       }),
-//     ],
-//   }),
-// );
+
 workbox.routing.registerRoute(
   /(.*)\.(?:png|gif|jpg)(.*)/,
   workbox.strategies.networkFirst({
