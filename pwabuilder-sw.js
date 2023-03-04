@@ -28,7 +28,7 @@ if (workbox.navigationPreload.isSupported()) {
 workbox.routing.registerRoute(
   new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new workbox.strategies.NetworkFirst({
-      cacheName: 'images',
+      cacheName: CACHE,
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
               statuses: [0, 200]
