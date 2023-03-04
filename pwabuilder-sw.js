@@ -18,6 +18,23 @@ self.addEventListener('install', async (event) => {
     caches.open(CACHE)
       .then((cache) => cache.add(offlineFallbackPage))           
   );
+
+  workbox.routing.registerRoute(
+    new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
+    new workbox.strategies.NetworkFirst({
+        cacheName: CACHE,
+        plugins: [
+            new workbox.cacheableResponse.CacheableResponsePlugin({
+                statuses: [0, 200]
+            }),
+            new workbox.expiration.ExpirationPlugin({
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 7,
+                purgeOnQuotaError: true
+            })
+        ]
+    })
+  );
 });
 // self.addEventListener('install', e => {
 //   e.waitUntil(caches.open(CACHE).then(async (cache) => {
@@ -58,22 +75,7 @@ if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
 
-workbox.routing.registerRoute(
-  new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
-  new workbox.strategies.NetworkFirst({
-      cacheName: CACHE,
-      plugins: [
-          new workbox.cacheableResponse.CacheableResponsePlugin({
-              statuses: [0, 200]
-          }),
-          new workbox.expiration.ExpirationPlugin({
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7,
-              purgeOnQuotaError: true
-          })
-      ]
-  })
-);
+
 
 workbox.routing.registerRoute(
   new RegExp('/*'),
