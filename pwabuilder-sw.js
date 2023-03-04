@@ -78,26 +78,38 @@ if (workbox.navigationPreload.isSupported()) {
 //   })
 // );
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith((async () => {
-      try {
-        const preloadResp = await event.preloadResponse;
+// self.addEventListener('fetch', (event) => {
+//   if (event.request.mode === 'navigate') {
+//     event.respondWith((async () => {
+//       try {
+//         const preloadResp = await event.preloadResponse;
 
-        if (preloadResp) {
-          return preloadResp;
+//         if (preloadResp) {
+//           return preloadResp;
+//         }
+
+//         const networkResp = await fetch(event.request);
+//         return networkResp;
+//       } catch (error) {
+
+//         const cache = await caches.open(CACHE);
+//         const cachedResp = await cache.match(offlineFallbackPage);
+//         return cachedResp;
+//       }
+//     })());
+//   }
+// });
+
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request)
+      .then(function(response) {
+        if (response) {
+          return response;
         }
-
-        const networkResp = await fetch(event.request);
-        return networkResp;
-      } catch (error) {
-
-        const cache = await caches.open(CACHE);
-        const cachedResp = await cache.match(offlineFallbackPage);
-        return cachedResp;
-      }
-    })());
-  }
+        return fetch(event.request);
+      })
+  );
 });
 
 
