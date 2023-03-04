@@ -62,16 +62,16 @@ workbox.routing.registerRoute(
   new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new workbox.strategies.CacheFirst({
       cacheName: CACHE,
-      plugins: [
-          new workbox.cacheableResponse.CacheableResponsePlugin({
-              statuses: [0, 200]
-          }),
-          new workbox.expiration.ExpirationPlugin({
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7,
-              purgeOnQuotaError: true
-          })
-      ]
+      // plugins: [
+      //     new workbox.cacheableResponse.CacheableResponsePlugin({
+      //         statuses: [0, 200]
+      //     }),
+      //     new workbox.expiration.ExpirationPlugin({
+      //         maxEntries: 100,
+      //         maxAgeSeconds: 60 * 60 * 24 * 7,
+      //         purgeOnQuotaError: true
+      //     })
+      // ]
   })
 );
 
