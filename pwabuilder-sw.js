@@ -2,9 +2,48 @@
 // const CACHE = "pwabuilder-page";
 const CACHE = "pwabuilder-offline";
 
+if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+  importScripts('https://cdnjs.cloudflare.com/ajax/libs/sw-toolbox/3.6.1/sw-toolbox.js');
+
+
+const CACHE_NAME = 'my-site-cache-v1';
+const urlsToCache = [
+  libs = ['player-0.0.11.min', 'main.bundle', 'lzwcompress'],
+  '/',
+  '/app-test/',
+  '/app-test/index.html',
+  ...libs.map(i => '/app-test/lib/' + i + '.js'),
+  '/app-test/lib/icomoon.css',
+  '/app-test/lib/main.bundle.css',
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('Cache opened');
+        return cache.addAll(urlsToCache);
+      })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        return response || fetch(event.request);
+      })
+  );
+});
+
+
+} else {
+
+
+
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
-importScripts('https://cdnjs.cloudflare.com/ajax/libs/sw-toolbox/3.6.1/sw-toolbox.js');
+
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
@@ -36,7 +75,6 @@ self.addEventListener('install', e => {
       ...libs.map(i => '/app-test/lib/' + i + '.js'),
       '/app-test/lib/icomoon.css',
       '/app-test/lib/main.bundle.css',
-      // ...cats.map(i => '/assets/' + i + '.jpg')
       ];
 
     console.log('ServiceWorker: Caching files:', c.length, c);
@@ -69,16 +107,6 @@ workbox.routing.registerRoute(
   new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new workbox.strategies.CacheFirst({
       cacheName: CACHE,
-      // plugins: [
-      //     new workbox.cacheableResponse.CacheableResponsePlugin({
-      //         statuses: [0, 200]
-      //     }),
-      //     new workbox.expiration.ExpirationPlugin({
-      //         maxEntries: 100,
-      //         maxAgeSeconds: 60 * 60 * 24 * 7,
-      //         purgeOnQuotaError: true
-      //     })
-      // ]
   })
 );
 
@@ -186,4 +214,7 @@ function updareChache(request, response){
   return caches.open(CACHE).then(function(cache){
     return cache.put(request, response);
   })
+}
+
+
 }
