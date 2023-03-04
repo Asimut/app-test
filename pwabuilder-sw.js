@@ -31,7 +31,6 @@ self.addEventListener('install', e => {
     c = [
       '/app-test/',
       '/app-test/index.html',
-      '/app-test/lib/',
       ...libs.map(i => '/app-test/lib/' + i + '.js'),
       '/app-test/lib/icomoon.css',
       '/app-test/lib/main.bundle.css',
