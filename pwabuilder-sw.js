@@ -26,8 +26,8 @@ self.addEventListener("message", (event) => {
 });
 
 workbox.routing.registerRoute(
-  new RegExp('https://asimut.github.io/app-test/.*\.*'),
-  new workbox.strategies.CacheFirst({
+  new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
+  new workbox.strategies.networkFirst({
       cacheName: CACHE,
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
