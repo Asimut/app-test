@@ -36,22 +36,22 @@ if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
 
-workbox.routing.registerRoute(
-  new RegExp('/(.*)/'),
-  new workbox.strategies.NetworkFirst({
-      cacheName: 'all',
-      plugins: [
-          new workbox.cacheableResponse.CacheableResponsePlugin({
-              statuses: [0, 200]
-          }),
-          new workbox.expiration.ExpirationPlugin({
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7,
-              purgeOnQuotaError: true
-          })
-      ]
-  })
-);
+// workbox.routing.registerRoute(
+//   new RegExp('/(.*)/'),
+//   new workbox.strategies.NetworkFirst({
+//       cacheName: 'all',
+//       plugins: [
+//           new workbox.cacheableResponse.CacheableResponsePlugin({
+//               statuses: [0, 200]
+//           }),
+//           new workbox.expiration.ExpirationPlugin({
+//               maxEntries: 100,
+//               maxAgeSeconds: 60 * 60 * 24 * 7,
+//               purgeOnQuotaError: true
+//           })
+//       ]
+//   })
+// );
 
 // workbox.routing.registerRoute(
 //   /(.*)\.(?:png|gif|jpg)(.*)/,
@@ -70,12 +70,12 @@ workbox.routing.registerRoute(
 //   })
 // );
 
-// workbox.routing.registerRoute(
-//   new RegExp('/*'),
-//   new workbox.strategies.StaleWhileRevalidate({
-//     cacheName: CACHE
-//   })
-// );
+workbox.routing.registerRoute(
+  new RegExp('/*'),
+  new workbox.strategies.StaleWhileRevalidate({
+    cacheName: CACHE
+  })
+);
 
 // self.addEventListener('fetch', (event) => {
 //   if (event.request.mode === 'navigate') {
