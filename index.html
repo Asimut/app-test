@@ -93,8 +93,10 @@
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         install();
+
+        const parentDOM = document.getElementById("app");
         
-        var button = document.getElementsByClassName("cover__header-content-action-link")[0];
+        var button = parentDOM.getElementsByClassName("cover__header-content-action-link")[0];
         console.log(button);
 
         button.addEventListener('click', button, function(e) {
