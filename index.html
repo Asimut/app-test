@@ -72,7 +72,7 @@
   </script> 
 
     <script>
-      window.addEventListener('click', (e) => {
+      window.addEventListener('click', '.cover__header-content-action-link', function(e) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice
           .then((choiceResult) => {
@@ -86,14 +86,10 @@
       });
 
       async function install() {
-        console.log('install')
-
-        deferredPrompt.prompt();
-
+        console.log('install');
 
         if(deferredPrompt){
           deferredPrompt.prompt();
-          console.log(deferredPrompt);
           deferredPrompt.userChoice.then(function(choiceResult){
             if(choiceResult.outcome === "accepted"){
               console.log('Your PWA has been installed.');
@@ -109,8 +105,7 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        install();
-        deferredPrompt.prompt();
+        install();        
       });
     </script>
 
