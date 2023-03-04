@@ -7,8 +7,6 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
 
-// precacheAndRoute(self.__WB_MANIFEST);
-
 self.addEventListener("message", (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
     self.skipWaiting();
@@ -76,23 +74,6 @@ workbox.routing.registerRoute(
       ]
   })
 );
-
-// workbox.routing.registerRoute(
-//   /(.*)\.(?:png|gif|jpg)(.*)/,
-//   workbox.strategies.networkFirst({
-//       cacheName: CACHE,
-//       plugins: [
-//           new workbox.cacheableResponse.Plugin({
-//               statuses: [0, 200]
-//           }),
-//           new workbox.expiration.Plugin({
-//               maxEntries: 100,
-//               maxAgeSeconds: 60 * 60 * 24 * 7,
-//               purgeOnQuotaError: true
-//           })
-//       ]
-//   })
-// );
 
 workbox.routing.registerRoute(
   new RegExp('/*'),
