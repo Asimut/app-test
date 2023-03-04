@@ -1,19 +1,8 @@
 // This is the "Offline page" service worker
 // const CACHE = "pwabuilder-page";
-const CACHE = "pwabuilder-offline-page";
+const CACHE = "pwabuilder-offline";
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
-
-// import { precacheAndRoute } from 'workbox-precaching';
-// import { registerRoute } from 'workbox-routing';
-// import { CacheFirst } from 'workbox-strategies';
-
-// precacheAndRoute(self.__WB_MANIFEST);
-
-// registerRoute(
-//   ({request}) => request.destination === 'image',
-//   new CacheFirst()
-// );
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
@@ -37,9 +26,9 @@ if (workbox.navigationPreload.isSupported()) {
 }
 
 workbox.routing.registerRoute(
-  new RegExp('/(.*)/'),
+  new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new workbox.strategies.NetworkFirst({
-      cacheName: 'all',
+      cacheName: 'images',
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
               statuses: [0, 200]
