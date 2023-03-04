@@ -28,7 +28,8 @@ self.addEventListener('install', e => {
       'for', 'the', 'same', 'extension'
     ],
     c = [
-      'index.html',
+      '/app-test/',
+      '/app-test/index.html',
       // ...cats.map(i => '/assets/' + i + '.jpg')
       ];
 
