@@ -2,28 +2,18 @@
 // const CACHE = "pwabuilder-page";
 const CACHE = "pwabuilder-offline-page";
 
-// if( 'function' === typeof importScripts) {
-  importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
-// }
-if (workbox) {
-  console.log('workbox ready!')
-}
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
 
-import { precacheAndRoute } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
+// import { precacheAndRoute } from 'workbox-precaching';
+// import { registerRoute } from 'workbox-routing';
+// import { CacheFirst } from 'workbox-strategies';
 
-// Закэшируем все ресурсы, которые мы предварительно определили с помощью precacheManifest
-precacheAndRoute(self.__WB_MANIFEST);
+// precacheAndRoute(self.__WB_MANIFEST);
 
-// Закэшируем картинки, используя стратегию CacheFirst
-registerRoute(
-  ({request}) => request.destination === 'image',
-  new CacheFirst()
-);
-
-
-
+// registerRoute(
+//   ({request}) => request.destination === 'image',
+//   new CacheFirst()
+// );
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
@@ -45,6 +35,34 @@ self.addEventListener('install', async (event) => {
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
+workbox.routing.registerRoute(
+  /\/assets\/.*\.(png|jpg|jpeg|gif)$/,
+  new workbox.strategies.CacheFirst({
+    cacheName: CACHE,
+    plugins: [
+      new workbox.expiration.Plugin({
+        maxEntries: 100,
+        maxAgeSeconds: 7 * 24 * 60 * 60, // 7 дней
+      }),
+    ],
+  }),
+);
+// workbox.routing.registerRoute(
+//   /(.*)\.(?:png|gif|jpg)(.*)/,
+//   workbox.strategies.networkFirst({
+//       cacheName: 'images',
+//       plugins: [
+//           new workbox.cacheableResponse.Plugin({
+//               statuses: [0, 200]
+//           }),
+//           new workbox.expiration.Plugin({
+//               maxEntries: 100,
+//               maxAgeSeconds: 60 * 60 * 24 * 7,
+//               purgeOnQuotaError: true
+//           })
+//       ]
+//   })
+// );
 
 workbox.routing.registerRoute(
   new RegExp('/*'),
