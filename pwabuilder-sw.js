@@ -28,7 +28,7 @@ self.addEventListener("message", (event) => {
 workbox.routing.registerRoute(
   // new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new RegExp('/(.*)/'),
-  new workbox.strategies.networkFirst({
+  new workbox.strategies.NetworkFirst({
       cacheName: CACHE,
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
