@@ -37,8 +37,8 @@ if (workbox.navigationPreload.isSupported()) {
 }
 
 workbox.routing.registerRoute(
-  /(.*)\.(?:png|gif|jpg)(.*)/,
-  workbox.strategies.networkFirst({
+  new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
+  new workbox.strategies.networkFirst({
       cacheName: CACHE
   })
 );
