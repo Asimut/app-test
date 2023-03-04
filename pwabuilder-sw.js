@@ -36,12 +36,42 @@ if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
 
+// workbox.routing.registerRoute(
+//   /(.*)\.(?:png|gif|jpg)(.*)/,
+//   workbox.strategies.networkFirst({
+//       cacheName: CACHE,
+//       plugins: [
+//           new workbox.cacheableResponse.Plugin({
+//               statuses: [0, 200]
+//           }),
+//           new workbox.expiration.Plugin({
+//               maxEntries: 100,
+//               maxAgeSeconds: 60 * 60 * 24 * 7,
+//               purgeOnQuotaError: true
+//           })
+//       ]
+//   })
+// );
+
+
 workbox.routing.registerRoute(
-  new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
-  new workbox.strategies.networkFirst({
-      cacheName: CACHE
+  new RegExp('https://asimut.github.io/app-test/.*\.*'),
+  workbox.strategies.networkFirst({
+      cacheName: CACHE,
+      plugins: [
+          new workbox.cacheableResponse.Plugin({
+              statuses: [0, 200]
+          }),
+          new workbox.expiration.Plugin({
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 7,
+              purgeOnQuotaError: true
+          })
+      ]
   })
 );
+
+
 
 workbox.routing.registerRoute(
   new RegExp('/*'),
