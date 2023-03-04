@@ -59,7 +59,7 @@ workbox.routing.registerRoute(
   workbox.strategies.networkFirst({
       cacheName: CACHE,
       plugins: [
-          new workbox.cacheableResponse.Plugin({
+          new workbox.cacheableResponse.CacheableResponsePlugin({
               statuses: [0, 200]
           }),
           new workbox.expiration.Plugin({
