@@ -2,7 +2,8 @@
 // const CACHE = "pwabuilder-page";
 const CACHE = "pwabuilder-offline";
 
-if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1) {
+var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+if (is_safari) {
   console.log("It is Safari");
 
   importScripts('https://cdnjs.cloudflare.com/ajax/libs/sw-toolbox/3.6.1/sw-toolbox.js');
