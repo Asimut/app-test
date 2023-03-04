@@ -26,7 +26,8 @@ self.addEventListener("message", (event) => {
 });
 
 workbox.routing.registerRoute(
-  new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
+  // new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
+  new RegExp('/(.*)/'),
   new workbox.strategies.networkFirst({
       cacheName: CACHE,
       plugins: [
@@ -69,9 +70,6 @@ if (workbox.navigationPreload.isSupported()) {
 //       ]
 //   })
 // );
-
-
-
 
 // workbox.routing.registerRoute(
 //   new RegExp('/*'),
