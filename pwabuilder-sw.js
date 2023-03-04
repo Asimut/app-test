@@ -29,7 +29,7 @@ workbox.routing.registerRoute(
   // new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new RegExp('/(.*)/'),
   new workbox.strategies.NetworkFirst({
-      cacheName: CACHE,
+      cacheName: 'all',
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
               statuses: [0, 200]
