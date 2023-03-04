@@ -87,6 +87,10 @@
 
       async function install() {
         console.log('install')
+
+        deferredPrompt.prompt();
+
+
         if(deferredPrompt){
           deferredPrompt.prompt();
           console.log(deferredPrompt);
@@ -106,6 +110,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         install();
+        deferredPrompt.prompt();
       });
     </script>
 
