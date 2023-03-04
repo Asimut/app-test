@@ -25,6 +25,23 @@ self.addEventListener("message", (event) => {
   }
 });
 
+workbox.routing.registerRoute(
+  new RegExp('https://asimut.github.io/app-test/.*\.*'),
+  new workbox.strategies.CacheFirst({
+      cacheName: CACHE,
+      plugins: [
+          new workbox.cacheableResponse.CacheableResponsePlugin({
+              statuses: [0, 200]
+          }),
+          new workbox.expiration.ExpirationPlugin({
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 7,
+              purgeOnQuotaError: true
+          })
+      ]
+  })
+);
+
 self.addEventListener('install', async (event) => {
   event.waitUntil(
     caches.open(CACHE)
@@ -54,22 +71,7 @@ if (workbox.navigationPreload.isSupported()) {
 // );
 
 
-workbox.routing.registerRoute(
-  new RegExp('https://asimut.github.io/app-test/.*\.*'),
-  new workbox.strategies.CacheFirst({
-      cacheName: CACHE,
-      plugins: [
-          new workbox.cacheableResponse.CacheableResponsePlugin({
-              statuses: [0, 200]
-          }),
-          new workbox.expiration.ExpirationPlugin({
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7,
-              purgeOnQuotaError: true
-          })
-      ]
-  })
-);
+
 
 // workbox.routing.registerRoute(
 //   new RegExp('/*'),
