@@ -35,34 +35,34 @@ self.addEventListener('install', async (event) => {
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
 }
-workbox.routing.registerRoute(
-  /\/assets\/.*\.(png|jpg|jpeg|gif)$/,
-  new workbox.strategies.CacheFirst({
-    cacheName: CACHE,
-    plugins: [
-      new workbox.expiration.Plugin({
-        maxEntries: 100,
-        maxAgeSeconds: 7 * 24 * 60 * 60, // 7 дней
-      }),
-    ],
-  }),
-);
 // workbox.routing.registerRoute(
-//   /(.*)\.(?:png|gif|jpg)(.*)/,
-//   workbox.strategies.networkFirst({
-//       cacheName: 'images',
-//       plugins: [
-//           new workbox.cacheableResponse.Plugin({
-//               statuses: [0, 200]
-//           }),
-//           new workbox.expiration.Plugin({
-//               maxEntries: 100,
-//               maxAgeSeconds: 60 * 60 * 24 * 7,
-//               purgeOnQuotaError: true
-//           })
-//       ]
-//   })
+//   /\/assets\/.*\.(png|jpg|jpeg|gif)$/,
+//   new workbox.strategies.CacheFirst({
+//     cacheName: CACHE,
+//     plugins: [
+//       new workbox.expiration.Plugin({
+//         maxEntries: 100,
+//         maxAgeSeconds: 7 * 24 * 60 * 60, // 7 дней
+//       }),
+//     ],
+//   }),
 // );
+workbox.routing.registerRoute(
+  /(.*)\.(?:png|gif|jpg)(.*)/,
+  workbox.strategies.networkFirst({
+      cacheName: CACHE,
+      plugins: [
+          new workbox.cacheableResponse.Plugin({
+              statuses: [0, 200]
+          }),
+          new workbox.expiration.Plugin({
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 7,
+              purgeOnQuotaError: true
+          })
+      ]
+  })
+);
 
 workbox.routing.registerRoute(
   new RegExp('/*'),
