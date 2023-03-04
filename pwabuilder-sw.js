@@ -56,7 +56,7 @@ if (workbox.navigationPreload.isSupported()) {
 
 workbox.routing.registerRoute(
   new RegExp('https://asimut.github.io/app-test/.*\.*'),
-  workbox.strategies.networkFirst({
+  new workbox.strategies.networkFirst({
       cacheName: CACHE,
       plugins: [
           new workbox.cacheableResponse.CacheableResponsePlugin({
