@@ -9,6 +9,19 @@ if (workbox) {
   console.log('workbox ready!')
 }
 
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { CacheFirst } from 'workbox-strategies';
+
+// Закэшируем все ресурсы, которые мы предварительно определили с помощью precacheManifest
+precacheAndRoute(self.__WB_MANIFEST);
+
+// Закэшируем картинки, используя стратегию CacheFirst
+registerRoute(
+  ({request}) => request.destination === 'image',
+  new CacheFirst()
+);
+
 
 
 
