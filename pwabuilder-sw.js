@@ -19,7 +19,6 @@ self.addEventListener('install', async (event) => {
     caches.open(CACHE)
     .then((cache) => cache.addAll([
       'index.html',
-      'assets/.jpg',
     ])) 
       // .then((cache) => cache.add(offlineFallbackPage))
            
