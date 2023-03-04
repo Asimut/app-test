@@ -97,7 +97,7 @@
         var button = document.getElementsByClassName("cover__header-content-action-link");
         console.log(button);
 
-        window.addEventListener('click', button, function(e) {
+        button.addEventListener('click', function(e) {
           deferredPrompt.prompt();
           deferredPrompt.userChoice
             .then((choiceResult) => {
