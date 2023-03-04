@@ -100,17 +100,7 @@ if (workbox.navigationPreload.isSupported()) {
 //   }
 // });
 
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      })
-  );
-});
+
 
 
 
@@ -121,37 +111,37 @@ self.addEventListener('fetch', function(event) {
 //   );
 // });
 
-// self.addEventListener('fetch', (event) => {
-//   if (event.request.mode === 'navigate') {
-//     event.respondWith(
-//       fetch(event.request)
-//       .then(function(response){
-//         console.log('PWA Builderadd page to offline cache: ' + response.url);
+self.addEventListener('fetch', (event) => {
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+      .then(function(response){
+        console.log('PWA Builderadd page to offline cache: ' + response.url);
 
-//         event.waitUntil(updareChache(event.request, response.clone()));
+        event.waitUntil(updareChache(event.request, response.clone()));
 
-//         return response;
-//       })
-//       .catch(function(error){
-//         console.log('PWA Builder request failed. Serving content from cache: ' + error);
-//         return fromCache(event.request);
-//       })
-//     );
-//   }
-// });
+        return response;
+      })
+      .catch(function(error){
+        console.log('PWA Builder request failed. Serving content from cache: ' + error);
+        return fromCache(event.request);
+      })
+    );
+  }
+});
 
-// function fromCache(request){
-//   return caches.open(CACHE).then(function(cache){
-//     if(!matching || matching.status === 404){
-//       return Promise.reject("no-match");
-//     }
+function fromCache(request){
+  return caches.open(CACHE).then(function(cache){
+    if(!matching || matching.status === 404){
+      return Promise.reject("no-match");
+    }
 
-//     return matching;
-//   })
-// }
+    return matching;
+  })
+}
 
-// function updareChache(request, response){
-//   return caches.open(CACHE).then(function(cache){
-//     return cache.put(request, response);
-//   })
-// }
+function updareChache(request, response){
+  return caches.open(CACHE).then(function(cache){
+    return cache.put(request, response);
+  })
+}
