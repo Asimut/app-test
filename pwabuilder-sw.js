@@ -42,6 +42,8 @@ workbox.routing.registerRoute(
   })
 );
 
+console.log(CACHE);
+
 // workbox.routing.registerRoute(
 //   /(.*)\.(?:png|gif|jpg)(.*)/,
 //   workbox.strategies.networkFirst({
