@@ -7,7 +7,7 @@
   "orientation": "any",
   "scope": "https://asimut.github.io/app-test/",
   "short_name": "Managing Stress",
-  "start_url": "https://asimut.github.io/app-test/",
+  "start_url": "https://asimut.github.io/app-test/index.html",
   "theme_color": "#ffffff",
   "categories": [
     "education"
