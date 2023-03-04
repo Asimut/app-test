@@ -5,9 +5,9 @@
   "display": "standalone",
   "name": "The Basics of Managing Stress",
   "orientation": "any",
-  "scope": "https://asimut.github.io/app-test/",
+  // "scope": "https://asimut.github.io/app-test/",
   "short_name": "Managing Stress",
-  "start_url": "https://asimut.github.io/app-test/index.html",
+  "start_url": "https://asimut.github.io/app-test/",
   "theme_color": "#ffffff",
   "categories": [
     "education"
