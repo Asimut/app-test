@@ -4,16 +4,16 @@ const CACHE = "pwabuilder-offline-page";
 
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
 
-// import { precacheAndRoute } from 'workbox-precaching';
-// import { registerRoute } from 'workbox-routing';
-// import { CacheFirst } from 'workbox-strategies';
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { CacheFirst } from 'workbox-strategies';
 
-// precacheAndRoute(self.__WB_MANIFEST);
+precacheAndRoute(self.__WB_MANIFEST);
 
-// registerRoute(
-//   ({request}) => request.destination === 'image',
-//   new CacheFirst()
-// );
+registerRoute(
+  ({request}) => request.destination === 'image',
+  new CacheFirst()
+);
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
 const offlineFallbackPage = "index.html";
@@ -25,8 +25,18 @@ self.addEventListener("message", (event) => {
   }
 });
 
+self.addEventListener('install', async (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))
+  );
+});
+
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
+
 workbox.routing.registerRoute(
-  // new RegExp('/(.*)\.(?:png|gif|jpg)(.*)/'),
   new RegExp('/(.*)/'),
   new workbox.strategies.NetworkFirst({
       cacheName: 'all',
@@ -42,17 +52,6 @@ workbox.routing.registerRoute(
       ]
   })
 );
-
-self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
-  );
-});
-
-if (workbox.navigationPreload.isSupported()) {
-  workbox.navigationPreload.enable();
-}
 
 // workbox.routing.registerRoute(
 //   /(.*)\.(?:png|gif|jpg)(.*)/,
