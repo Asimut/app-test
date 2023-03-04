@@ -27,9 +27,14 @@ self.addEventListener('install', e => {
       'lots', 'of', 'files',
       'for', 'the', 'same', 'extension'
     ],
+    libs = ['player-0.0.11.min', 'main.bundle', 'lzwcompress'],
     c = [
       '/app-test/',
       '/app-test/index.html',
+      '/app-test/lib/',
+      ...libs.map(i => '/app-test/lib/' + i + '.js'),
+      '/app-test/lib/icomoon.css',
+      '/app-test/lib/main.bundle.css',
       // ...cats.map(i => '/assets/' + i + '.jpg')
       ];
 
