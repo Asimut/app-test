@@ -2,14 +2,14 @@
 // const CACHE = "pwabuilder-page";
 const CACHE = "pwabuilder-offline-page";
 
-if( 'function' === typeof importScripts) {
-  importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
-  addEventListener('message', onMessage);
-
-  function onMessage(e) { 
-    // do some work here 
-  }    
+// if( 'function' === typeof importScripts) {
+  importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');    
+// }
+if (workbox) {
+  console.log('workbox ready!')
 }
+
+
 
 
 // TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
