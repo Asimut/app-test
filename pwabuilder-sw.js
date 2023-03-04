@@ -39,17 +39,7 @@ if (workbox.navigationPreload.isSupported()) {
 workbox.routing.registerRoute(
   /(.*)\.(?:png|gif|jpg)(.*)/,
   workbox.strategies.networkFirst({
-      cacheName: CACHE,
-      plugins: [
-          new workbox.cacheableResponse.Plugin({
-              statuses: [0, 200]
-          }),
-          new workbox.expiration.Plugin({
-              maxEntries: 100,
-              maxAgeSeconds: 60 * 60 * 24 * 7,
-              purgeOnQuotaError: true
-          })
-      ]
+      cacheName: CACHE
   })
 );
 
