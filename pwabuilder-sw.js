@@ -17,7 +17,13 @@ self.addEventListener("message", (event) => {
 self.addEventListener('install', async (event) => {
   event.waitUntil(
     caches.open(CACHE)
-      .then((cache) => cache.add(offlineFallbackPage))
+    .then((cache) => cache.addAll([
+      'https://asimut.github.io/app-test/',
+      'https://asimut.github.io/app-test/index.html',
+      'https://asimut.github.io/app-test/assets/.jpg',
+    ])) 
+      // .then((cache) => cache.add(offlineFallbackPage))
+           
   );
 });
 
@@ -41,8 +47,6 @@ workbox.routing.registerRoute(
       ]
   })
 );
-
-console.log(CACHE);
 
 // workbox.routing.registerRoute(
 //   /(.*)\.(?:png|gif|jpg)(.*)/,
@@ -89,9 +93,6 @@ workbox.routing.registerRoute(
 //     })());
 //   }
 // });
-
-
-
 
 
 // self.addEventListener('install', async (event) => {
