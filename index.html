@@ -94,10 +94,10 @@
       document.addEventListener("DOMContentLoaded", function() {
         install();
         
-        var button = document.getElementsByClassName("cover__header-content-action-link");
+        var button = document.getElementsByClassName("cover__header-content-action-link")[0];
         console.log(button);
 
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', button, function(e) {
           deferredPrompt.prompt();
           deferredPrompt.userChoice
             .then((choiceResult) => {
