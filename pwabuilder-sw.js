@@ -14,17 +14,47 @@ self.addEventListener("message", (event) => {
   }
 });
 
-self.addEventListener('install', async (event) => {
-  event.waitUntil(
-    caches.open(CACHE)
-    .then((cache) => cache.addAll([
-      'index.html',
-      'assets/(.*)',
-    ])) 
-      // .then((cache) => cache.add(offlineFallbackPage))
+// self.addEventListener('install', async (event) => {
+//   event.waitUntil(
+//     caches.open(CACHE)
+//       .then((cache) => cache.add(offlineFallbackPage))
            
-  );
+//   );
+// });
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(async (cache) => {
+    let ok,
+    cats = [
+      'a', 'folder', 'with',
+      'lots', 'of', 'files',
+      'for', 'the', 'same', 'extension'
+    ],
+    c = [
+      'index.html',
+      ...cats.map(i => '/assets/' + i + '.jpg')
+      ];
+
+    console.log('ServiceWorker: Caching files:', c.length, c);
+    try {
+      ok = await cache.addAll(c);
+    } catch (err) {
+      console.error('sw: cache.addAll');
+      for await (let i of c) {
+        try {
+          ok = await cache.add(i);
+        } catch (err) {
+          console.warn('sw: cache.add',i);
+        }
+      }
+    }
+
+    return ok;
+  }));
+
+  console.log('ServiceWorker installed');
 });
+
+
 
 if (workbox.navigationPreload.isSupported()) {
   workbox.navigationPreload.enable();
