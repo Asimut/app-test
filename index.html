@@ -72,19 +72,6 @@
   </script> 
 
     <script>
-      window.addEventListener('click', '.cover__header-content-action-link', function(e) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice
-          .then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              console.log('User accepted the A2HS prompt');
-            } else {
-              console.log('User dismissed the A2HS prompt');
-            }
-            deferredPrompt = null;
-          });
-      });
-
       async function install() {
         console.log('install');
 
@@ -105,7 +92,23 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        install();        
+        install();
+        
+        var button = document.getElementsByClassName("cover__header-content-action-link");
+        console.log(button);
+
+        window.addEventListener('click', button, function(e) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice
+            .then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              deferredPrompt = null;
+            });
+        });
       });
     </script>
 
