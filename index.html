@@ -61,8 +61,6 @@
     window.addEventListener('beforeinstallprompt', function(event) {
       event.preventDefault();
       deferredPrompt = event;
-
-      deferredPrompt.prompt();
     });
 
     if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
