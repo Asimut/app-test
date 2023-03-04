@@ -45,9 +45,8 @@
     </script>
 
   <script>
-    let deferredPrompt = null;
+    
     window.addEventListener("DOMContentLoaded", async event => {
-      console.log("DOMContentLoaded");
       if ('BeforeInstallPromptEvent' in window) {
         console.log("⏳ BeforeInstallPromptEvent supported but not fired yet");
       } else {
@@ -55,13 +54,12 @@
       }
     });
 
+    let deferredPrompt = null;
     window.addEventListener('beforeinstallprompt', function(event) {
-      console.log(event)
-      // Отменяем стандартную обработку события
       event.preventDefault();
-      // Сохраняем объект PromptEvent для дальнейшего использования
       deferredPrompt = event;
-      // Можно использовать deferredPrompt.prompt() для отображения диалогового окна установки
+
+      deferredPrompt.prompt();
     });
 
     if (navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
@@ -77,20 +75,18 @@
     //   installPromptEvent = event;
     // });
 
-    function installApp() {
-      if (installPromptEvent) {
-        installPromptEvent.prompt();
-        installPromptEvent.userChoice.then(function(choiceResult) {
-          // Обработка выбора пользователя
-        });
-      }
-    }
+    // function installApp() {
+    //   if (installPromptEvent) {
+    //     installPromptEvent.prompt();
+    //     installPromptEvent.userChoice.then(function(choiceResult) {
+    //       // Обработка выбора пользователя
+    //     });
+    //   }
+    // }
   </script> 
 
     <script>
       window.addEventListener('click', (e) => {
-        // hide our user interface that shows our A2HS button
-        // btnAdd.style.display = 'none';
         // Show the prompt
         deferredPrompt.prompt();
         // Wait for the user to respond to the prompt
@@ -107,7 +103,6 @@
 
       async function install() {
         console.log('install')
-        console.log(deferredPrompt);
         if(deferredPrompt){
           deferredPrompt.prompt();
           console.log(deferredPrompt);
@@ -115,7 +110,7 @@
             if(choiceResult.outcome === "accepted"){
               console.log('Your PWA has been installed.');
             } else {
-              console.loG('User chose to not install ypur PWA.')
+              console.log('User chose to not install ypur PWA.')
             }
 
             deferredPrompt = null;
