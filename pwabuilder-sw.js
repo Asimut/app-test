@@ -112,41 +112,58 @@ workbox.routing.registerRoute(
 //   );
 // });
 
-self.addEventListener('fetch', (event) => {
-  if (event.request.mode === 'navigate') {
-    event.respondWith(
-      fetch(event.request)
-      .then(function(response){
-        console.log('PWA Builderadd page to offline cache: ' + response.url);
-
-        event.waitUntil(updareChache(event.request, response.clone()));
-
-        return response;
-      })
-      .catch(function(error){
-        console.log('PWA Builder request failed. Serving content from cache: ' + error);
-        return fromCache(event.request);
-      })
-    );
-  }
-  if (event.request.destination === 'image') {
-    event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        return fetch(event.request).then((response) => {
-          const clonedResponse = response.clone();
-          caches.open('images').then((cache) => {
-            cache.put(event.request, clonedResponse);
-          });
-          return response;
-        });
-      })
-    );
+self.addEventListener("fetch", event => {
+  if (event.request.url === "https://asimut.github.io/app-test/") {
+      // or whatever your app's URL is
+      event.respondWith(
+          fetch(event.request).catch(err =>
+              self.cache.open(cache_name).then(cache => cache.match(offlineFallbackPage))
+          )
+      );
+  } else {
+      event.respondWith(
+          fetch(event.request).catch(err =>
+              caches.match(event.request).then(response => response)
+          )
+      );
   }
 });
+
+// self.addEventListener('fetch', (event) => {
+//   if (event.request.mode === 'navigate') {
+//     event.respondWith(
+//       fetch(event.request)
+//       .then(function(response){
+//         console.log('PWA Builderadd page to offline cache: ' + response.url);
+
+//         event.waitUntil(updareChache(event.request, response.clone()));
+
+//         return response;
+//       })
+//       .catch(function(error){
+//         console.log('PWA Builder request failed. Serving content from cache: ' + error);
+//         return fromCache(event.request);
+//       })
+//     );
+//   }
+//   if (event.request.destination === 'image') {
+//     event.respondWith(
+//       caches.match(event.request).then((cachedResponse) => {
+//         if (cachedResponse) {
+//           return cachedResponse;
+//         }
+
+//         return fetch(event.request).then((response) => {
+//           const clonedResponse = response.clone();
+//           caches.open('images').then((cache) => {
+//             cache.put(event.request, clonedResponse);
+//           });
+//           return response;
+//         });
+//       })
+//     );
+//   }
+// });
 
 function fromCache(request){
   return caches.open(CACHE).then(function(cache){
